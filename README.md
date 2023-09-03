@@ -21,9 +21,9 @@ Experimental use to try some statistical optimization strategies while reliving 
   
   🟥 No corresponding with the champion
   
-  🟦 Your champion is older (ex: yours Release in 2016 and 2022 for the one to find)
+  🟪 Your champion has been release before (ex: yours in 2016 and 2022 for the one to find)
   
-  🟪 Your champion is newer
+  🟦 Your champion has been release after 
   #
 
 - 🚹 Gender
