@@ -1,0 +1,19 @@
+{
+    "manifest_version": 3,
+    "name": "Loldle Data Retriever",
+    "version": "1.0",
+    "description": "Retrieve a string representation of squares based on their class names",
+    "permissions": ["activeTab", "scripting", "storage"],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "action": {
+    },
+    "content_scripts": [
+      {
+        "matches": ["https://loldle.net/classic"],
+        "js": ["popup.js"]
+      }
+    ]
+  }
+  
