@@ -1,3 +1,4 @@
 # .gitignore
 Extension.*
 Data/geckodriver.log
+Data/data.html

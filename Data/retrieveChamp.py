@@ -30,7 +30,7 @@ except:
 with open('champions.json') as json_file:
     champion_data = json.load(json_file)
     
-champion_name_to_guess = input("Enter guess champion name: ")
+champion_name_to_guess = input("Enter guess champion's name: ")
 
 for i in range(0,len(champion_data)):
 #for i in range(0,29):
@@ -61,12 +61,10 @@ with open('data.html', 'w') as f:
 soup = BeautifulSoup(html_content, 'html.parser')
 
 champion_elements = soup.find_all('div', class_='square-content')
-for elem in champion_elements:
-    print(elem)
 
 if champion_elements:
     # Create or open a CSV file to write the data
-    with open('champion_data.csv', 'w', newline='', encoding='utf-8') as csvfile:
+    with open('champions_data.csv', 'w', newline='', encoding='utf-8') as csvfile:
         fieldnames = ['Champion Name', 'Gender', 'Position(s)', 'Species', 'Resource', 'Range type', 'Region(s)', 'Release year']  # Add other column names as needed
         writer = csv.writer(csvfile, delimiter=';', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         

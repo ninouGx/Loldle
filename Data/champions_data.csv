@@ -44,7 +44,6 @@ Heimerdinger;Male;Middle,Support;Yordle;Mana;Ranged;Piltover;2009
 Illaoi;Female;Top;Human,Spiritualist;Mana;Melee;Bilgewater;2015
 Irelia;Female;Middle,Top;Human,Spiritualist;Mana;Melee;Ionia;2010
 Ivern;Male;Jungle;Human,MagicallyAltered;Mana;Ranged;Freljord,Ionia;2016
-Janna;Female;Support;God,Spirit;Mana;Ranged;Shurima,Zaun;2009
 Jarvan IV;Male;Jungle;Human;Mana;Melee;Demacia;2011
 Jax;Male;Jungle,Top;Unknown;Mana;Melee;Icathia,Runeterra,Shurima;2009
 Jayce;Male;Middle,Top;Human;Mana;Melee,Ranged;Piltover;2012
@@ -53,6 +52,7 @@ Jinx;Female;Bottom;ChemicallyAltered,Human;Mana;Ranged;Zaun;2013
 K'Sante;Male;Top;Human;Mana;Melee;Shurima;2022
 Kai'Sa;Female;Bottom;Human,Void-Being;Mana;Ranged;Shurima,Void;2018
 Kalista;Female;Bottom;Undead;Mana;Ranged;Camavor,ShadowIsles;2014
+Karma;Female;Support;Human,Spiritualist;Mana;Ranged;Ionia;2011
 Karthus;Male;Jungle;Undead;Mana;Ranged;Noxus,ShadowIsles;2009
 Kassadin;Male;Middle;Human,Void-Being;Mana;Melee;Shurima,Void;2009
 Katarina;Female;Middle;Human;Manaless;Melee;Noxus;2009
@@ -79,6 +79,7 @@ Milio;Male;Support;Human,Magicborn;Mana;Ranged;Ixtal;2023
 Miss Fortune;Female;Bottom;Human;Mana;Ranged;Bilgewater;2010
 Mordekaiser;Male;Top;Revenant;Shield;Melee;Noxus;2010
 Morgana;Female;Support;Aspect,Human,MagicallyAltered;Mana;Ranged;Demacia,Targon;2009
+Naafiri;Female;Middle;Darkin,Dog;Mana;Melee;Shurima;2023
 Nami;Female;Support;Vastayan;Mana;Ranged;Runeterra;2012
 Nasus;Male;Top;God-Warrior;Mana;Melee;Shurima;2009
 Nautilus;Male;Support;Revenant;Mana;Melee;Bilgewater;2012
@@ -90,7 +91,7 @@ Nunu & Willump;Male;Jungle;Human,Yeti;Mana;Melee;Freljord;2009
 Olaf;Male;Jungle,Top;Human,Iceborn;Mana;Melee;Freljord;2010
 Orianna;Female;Middle;Golem;Mana;Ranged;Piltover;2011
 Ornn;Male;Top;God,Spirit;Mana;Melee;Freljord;2017
-Pantheon;Male;Jungle,Middle,Support;Aspect,Human;Mana;Melee;Targon;2010
+Pantheon;Male;Middle,Support,Top;Aspect,Human;Mana;Melee;Targon;2010
 Poppy;Female;Jungle,Top;Yordle;Mana;Melee;Demacia;2010
 Pyke;Male;Support;Revenant;Mana;Melee;Bilgewater;2018
 Qiyana;Female;Middle;Human,Magicborn;Mana;Melee;Ixtal;2019
@@ -161,4 +162,4 @@ Ziggs;Male;Bottom,Middle;Yordle;Mana;Ranged;Zaun;2012
 Zilean;Male;Support;Human,Magicborn;Mana;Ranged;Icathia,Runeterra,Shurima;2009
 Zoe;Female;Middle;Aspect,Human;Mana;Ranged;Targon;2017
 Zyra;Female;Support;Unknown;Mana;Ranged;Ixtal;2012
-Karma;Female;Support;Human,Spiritualist;Mana;Ranged;Ionia;2011
+Janna;Female;Support;God,Spirit;Mana;Ranged;Shurima,Zaun;2009
