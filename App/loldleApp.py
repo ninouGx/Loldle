@@ -5,6 +5,7 @@ import os
 from tqdm import tqdm
 #import readline
 import time
+import re
 
 ############################################################################################################
 #  Constants
@@ -126,9 +127,9 @@ def convert_combinaison_to_visual(combinaison):
         elif elem == WRONG:
             result += "🟥"
         elif elem == BEFORE:
-            result += "🟪"
+            result += "⬇️"
         elif elem == AFTER:
-            result += "🟦"
+            result += "⬆️"
         else:
             result += "❓"
     return result
@@ -142,9 +143,9 @@ def convert_visual_to_combinaison(visual):
             result.append(ATLEAST)
         elif elem == "🟥":
             result.append(WRONG)
-        elif elem == "🟪":
+        elif elem == "⬇️" or elem == "⬇":
             result.append(BEFORE)
-        elif elem == "🟦":
+        elif elem == "⬆️" or elem == "⬆":
             result.append(AFTER)
         else:
             result.append(WRONG)
@@ -178,7 +179,7 @@ def calculate_each_combinaison(champ_to_test: Champion(), champ_list: [Champion(
     return result
 
 # Return the list of champs that can be the choosen champ regarding their compatibility with the combinaison
-# Example: with alistar, if combinaison is [0, 2, 1, 0, 2, 2, 5]  (🟩🟥🟧🟩🟥🟥🟦) 
+# Example: with alistar, if combinaison is [0, 2, 1, 0, 2, 2, 5]  (🟩🟥🟧🟩🟥🟥⬆️) 
 # the champ have to be a male, not a support, be a minotaur with other species, have mana, not a melee, not from runeterra and be released strictly after 2009 (>= 2010)
 def find_compatibles_champs_with_combinaison(champion : Champion(), combinaison: [int], champ_list: [Champion()]):
     result = []
@@ -300,6 +301,27 @@ def ask_for_champ(champ_list: [Champion()]):
             for champ in available_champs:
                 print(champ)
             continue
+
+def ask_for_combinaison():
+    isValid = False
+    while not isValid:
+        # A valid combinaison is 7 characters long, each character is a number between 0 and 4 or each character is an emoji (🟩🟥🟧⬇️⬆️)
+        input_combinaison = input("Give the combinaison (7 characters, 0 to 4 or 🟩🟥🟧⬇️ ⬆️\n")
+        if len(input_combinaison) != 7:
+            if not re.match("^[0-4]*$", input_combinaison) and not re.match("^[🟩🟥🟧⬇️⬆️]*$", input_combinaison):
+                print("Invalid combinaison. Try again.")
+                continue
+        isValid = True
+    if re.match("^[0-4]*$", input_combinaison):
+        return input_combinaison
+    else:
+        # Transform string emoji to an int combinaison, example: 🟩🟥🟧🟩🟥🟥⬆️ -> 0220014
+        print("You chose: ",convert_visual_to_combinaison(input_combinaison))
+        print("test", EXACT, ATLEAST, WRONG, BEFORE, AFTER)
+        listStr = [char for char in input_combinaison]
+        listStr.pop() # To remove the null character at the end
+        return "".join(map(str, convert_visual_to_combinaison(listStr)))     
+        
         
 def print_comparaison_between_champ(champ1: Champion(), champ2: Champion()):
     print(champ1.Name, " ", champ2.Name)
@@ -354,12 +376,15 @@ def play_cheat_online_game():
     while not game.is_champ_found:
         if len(game.remaining_champs) < len(game.champ_list):
             max_entropy(game.remaining_champs, verbose =True)
+        if len(game.remaining_champs) == 0:
+            print("Your combinaison is wrong, there is no possible champion left")
+            break
         if len(game.remaining_champs) <= 5:
             for champ in game.remaining_champs:
                 print(champ.Name)
         game.last_tested_champ = ask_for_champ(set(game.champ_list).symmetric_difference(game.tested_champs))
         game.tested_champs.insert(0, game.last_tested_champ)
-        combi = input("Give the combinaison\n")
+        combi = ask_for_combinaison()
         game.combinaison.insert(0,int(combi, 5))
         game.remaining_champs = find_compatibles_champs_with_combinaison(game.last_tested_champ, base_10_to_5(game.combinaison[0]), game.remaining_champs)
         clear_screen()
@@ -443,25 +468,7 @@ def update_with_static_progress_bar():
 
     print("\nTask completed!")
     
-def main():
-    # Possible Colors:
-    # Gender - two colors: red or green
-    # Position(s) - three colors: red, orange, green  
-    # Species -  three colors: red, orange, green
-    # Resource - two colors: red or green
-    # Range type - three colors: red, orange, green
-    # Region(s) - three colors: red, orange, green
-    # Release year - three colors: green, blue or purple
-    # 0 🟩 green right one, 
-    # 1 🟧 orange have atleast one part of it, 
-    # 2 🟥 red not part of it, 
-    # 3 🟪 blue release before, 
-    # 4 🟦 purple release after
-    # 🟩🟥🟧🟩🟥🟥🟪
-    # 0 2 1 0 2 2 4
-    # 0*5^0 + 2*5^1 + 1*5^2 + 0*5^3 + 2*5^4 + 2*5^5 + 4*5^6 = 70035
-    # total possible 78124 car base 5 avec 7 emplacement possibles
-    
+def main():    
     #test_aspects()
     #test_compatibles_champs()
     #test_maximum_entropy()
