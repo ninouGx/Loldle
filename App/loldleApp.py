@@ -278,7 +278,7 @@ class GameState:
         print(convert_combinaison_to_visual(base_10_to_5(self.combinaison[0])))
     
     def display_combi_and_champ(self):
-        print("🚹📍🦄⭐️🗡️ 🌎🕰️")
+        print("🚹📍🦄⭐️🗡️🌎🕰️")
         for i in range(len(self.tested_champs)-1, -1, -1):
             champ = self.tested_champs[i]
             combi = self.combinaison[i]
