@@ -3,6 +3,7 @@ import csv
 import numpy as np
 import os
 from tqdm import tqdm
+import curses
 #import readline
 import time
 import re
@@ -284,11 +285,30 @@ class GameState:
             combi = self.combinaison[i]
             print(convert_combinaison_to_visual(base_10_to_5(combi)), " ", champ.Name)
 
+    def ask_for_combinaison(self):
+        isValid = False
+        while not isValid:
+            # A valid combinaison is 7 characters long, each character is a number between 0 and 4 or each character is an emoji (🟩🟥🟧⬇️⬆️)
+            input_combinaison = input(f"Give the result combinaison for {self.last_tested_champ.Name} (7 characters, 0 to 4 or 🟩🟥🟧⬇️⬆️):\n")
+            if len(input_combinaison) != 7:
+                if not re.match("^[0-4]*$", input_combinaison) and not re.match("^[🟩🟥🟧⬇️⬆️]*$", input_combinaison):
+                    print("Invalid combinaison. Try again.")
+                    continue
+            isValid = True
+        if re.match("^[0-4]*$", input_combinaison):
+            return input_combinaison
+        else:
+            # Transform string emoji to an int combinaison, example: 🟩🟥🟧🟩🟥🟥⬆️ -> 0220014
+            print("You chose: ",convert_visual_to_combinaison(input_combinaison))
+            print("test", EXACT, ATLEAST, WRONG, BEFORE, AFTER)
+            listStr = [char for char in input_combinaison]
+            listStr.pop() # To remove the null character at the end
+            return "".join(map(str, convert_visual_to_combinaison(listStr)))     
 
 def ask_for_champ(champ_list: [Champion()]):
     isValid = False
     while not isValid:
-        input_champ = input("Choose a champion\n").lower()
+        input_champ = input("Choose a champion you want to try\n").lower()
         available_champs = [champ.Name for champ in champ_list if champ.Name.lower().startswith(input_champ)]
         if len(available_champs) == 0:
             print("No champions found with that name. Try again.")
@@ -300,28 +320,7 @@ def ask_for_champ(champ_list: [Champion()]):
             print("Available champions:")
             for champ in available_champs:
                 print(champ)
-            continue
-
-def ask_for_combinaison():
-    isValid = False
-    while not isValid:
-        # A valid combinaison is 7 characters long, each character is a number between 0 and 4 or each character is an emoji (🟩🟥🟧⬇️⬆️)
-        input_combinaison = input("Give the combinaison (7 characters, 0 to 4 or 🟩🟥🟧⬇️ ⬆️\n")
-        if len(input_combinaison) != 7:
-            if not re.match("^[0-4]*$", input_combinaison) and not re.match("^[🟩🟥🟧⬇️⬆️]*$", input_combinaison):
-                print("Invalid combinaison. Try again.")
-                continue
-        isValid = True
-    if re.match("^[0-4]*$", input_combinaison):
-        return input_combinaison
-    else:
-        # Transform string emoji to an int combinaison, example: 🟩🟥🟧🟩🟥🟥⬆️ -> 0220014
-        print("You chose: ",convert_visual_to_combinaison(input_combinaison))
-        print("test", EXACT, ATLEAST, WRONG, BEFORE, AFTER)
-        listStr = [char for char in input_combinaison]
-        listStr.pop() # To remove the null character at the end
-        return "".join(map(str, convert_visual_to_combinaison(listStr)))     
-        
+            continue       
         
 def print_comparaison_between_champ(champ1: Champion(), champ2: Champion()):
     print(champ1.Name, " ", champ2.Name)
@@ -370,6 +369,7 @@ def play_assisted_game():
             print("You found the champion!")
             for champ in game.remaining_champs:
                 print(champ.Name)
+                
 def play_cheat_online_game():
     game = GameState()
     clear_screen()
@@ -383,8 +383,9 @@ def play_cheat_online_game():
             for champ in game.remaining_champs:
                 print(champ.Name)
         game.last_tested_champ = ask_for_champ(set(game.champ_list).symmetric_difference(game.tested_champs))
+        print("Now enter this champion on the website")
         game.tested_champs.insert(0, game.last_tested_champ)
-        combi = ask_for_combinaison()
+        combi = game.ask_for_combinaison()
         game.combinaison.insert(0,int(combi, 5))
         game.remaining_champs = find_compatibles_champs_with_combinaison(game.last_tested_champ, base_10_to_5(game.combinaison[0]), game.remaining_champs)
         clear_screen()
@@ -419,10 +420,23 @@ def test_compatibles_champs():
         
 def test_maximum_entropy():
     champ_list = get_champ_list_with_data()
-    max_champ, max_entrop = max_entropy(champ_list)
+    max_champ, max_entrop = max_entropy(champ_list, verbose=True)
     print(f"Maximum entropy is {max_entrop} with {max_champ.Name}")
-          
-import curses
+            
+def update_with_static_progress_bar():
+    static_text = "Static Text: "
+    dynamic_text = "Dynamic Data: {}%"
+
+    for progress in range(101):
+        terminal_content = static_text + dynamic_text.format(progress)
+        print(terminal_content, end="\r", flush=True)
+        time.sleep(0.1)  # Simulate some work being done
+
+    print("\nTask completed!")
+
+############################################################################################################
+#   Main
+############################################################################################################
 
 def display_choice_menu(stdscr):
     valid_inputs = {
@@ -455,41 +469,26 @@ def display_choice_menu(stdscr):
             return str(index + 1)
 
         stdscr.refresh()
-
-            
-def update_with_static_progress_bar():
-    static_text = "Static Text: "
-    dynamic_text = "Dynamic Data: {}%"
-
-    for progress in range(101):
-        terminal_content = static_text + dynamic_text.format(progress)
-        print(terminal_content, end="\r", flush=True)
-        time.sleep(0.1)  # Simulate some work being done
-
-    print("\nTask completed!")
-    
-def main():    
-    #test_aspects()
-    #test_compatibles_champs()
-    #test_maximum_entropy()
-    
-    #test_average_attempts_with_entropy()
-    
-    #play_cheat_online_game()
-    #play_assisted_game()
-    #play_game() /home/ninou/Documents/Dev/Lolidle/App
-
+        
+def play_menu():
     clear_screen()
 
     choice = curses.wrapper(display_choice_menu)
     
-
     if choice == "1":
         play_game()
     elif choice == "2":
         play_assisted_game()
     elif choice == "3":
         play_cheat_online_game()
+    
+def main():    
+    #test_aspects()
+    #test_compatibles_champs()
+    #test_maximum_entropy()    
+    #test_average_attempts_with_entropy()
+    
+    play_menu()
         
 if __name__ == "__main__":
     main()
