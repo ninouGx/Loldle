@@ -43,9 +43,11 @@ Experimental use to try some statistical optimization strategies while reliving 
   🕰️ Release Date
   #
 
-- Source videos: 
-  [ScienceEtonnante - JE CRAQUE WORDLE !](https://www.youtube.com/watch?v=iw4_7ioHWF4&pp=ygUXd29yZGxlIHNjaWVuY2VldG9ubmFudGU%3D)
-  [3Blue1Brown - Solving Wordle using information theory](https://www.youtube.com/watch?v=v68zYyaEmEA&t=0s)
+Source videos:
+  
+  - [ScienceEtonnante - JE CRAQUE WORDLE !](https://www.youtube.com/watch?v=iw4_7ioHWF4&pp=ygUXd29yZGxlIHNjaWVuY2VldG9ubmFudGU%3D)
+  
+  - [3Blue1Brown - Solving Wordle using information theory](https://www.youtube.com/watch?v=v68zYyaEmEA&t=0s)
   #
 
 Official Game Source: [https://loldle.net/classic](https://loldle.net/classic)
