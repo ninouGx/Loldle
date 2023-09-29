@@ -16,6 +16,16 @@ Experimental use to try some statistical optimization strategies while reliving 
 2. `cd Loldle`
 3. `python App/loldleApp.py`
 
+### Use the Extension
+On a chromium browser:
+1. Go to `chrome://extensions/`
+2. Enable `Developer mode`
+3. Click on `Load unpacked`
+4. Select the `Extension` folder of the project
+5. Go to [https://loldle.net/classic](https://loldle.net/classic)
+6. Click on the extension icon
+7. Copy the champions combination in the terminal
+
 ## Informations (number to input for each category)
 - 🟩 Exact match -> **0**
   
