@@ -301,7 +301,7 @@ class GameState:
             # Transform string emoji to an int combinaison, example: 🟩🟥🟧🟩🟥🟥⬆️ -> 0220014
             listStr = [char for char in input_combinaison]
             lastChar = listStr[-1]
-            if lastChar == "⬇️" or lastChar == "⬇" or lastChar == "⬆️" or lastChar == "⬆":    
+            if not (lastChar == "🟩")    
                 listStr.pop() # To remove the double char hapening with an arrow emoji
             return "".join(map(str, convert_visual_to_combinaison(listStr)))     
 
