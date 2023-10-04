@@ -299,10 +299,10 @@ class GameState:
             return input_combinaison
         else:
             # Transform string emoji to an int combinaison, example: 🟩🟥🟧🟩🟥🟥⬆️ -> 0220014
-            print("You chose: ",convert_visual_to_combinaison(input_combinaison))
-            print("test", EXACT, ATLEAST, WRONG, BEFORE, AFTER)
             listStr = [char for char in input_combinaison]
-            listStr.pop() # To remove the null character at the end
+            lastChar = listStr[-1]
+            if lastChar == "⬇️" or lastChar == "⬇" or lastChar == "⬆️" or lastChar == "⬆":    
+                listStr.pop() # To remove the double char hapening with an arrow emoji
             return "".join(map(str, convert_visual_to_combinaison(listStr)))     
 
 def ask_for_champ(champ_list: [Champion()]):
@@ -339,7 +339,6 @@ def play_game():
         game.tested_champs.insert(0, game.last_tested_champ)
         game.combinaison.insert(0,get_comparaison_with_champ(game.last_tested_champ, game.choosen_champ))
         clear_screen()
-        #game.display_combinaison()
         game.display_combi_and_champ()
         if game.last_tested_champ == game.choosen_champ:
             game.is_champ_found = True
@@ -362,7 +361,6 @@ def play_assisted_game():
         game.remaining_champs.remove(game.last_tested_champ)
         game.remaining_champs = find_compatibles_champs_with_combinaison(game.last_tested_champ, base_10_to_5(game.combinaison[0]), game.remaining_champs)
         clear_screen()
-        #game.display_combinaison()
         game.display_combi_and_champ()
         if game.last_tested_champ == game.choosen_champ:
             game.is_champ_found = True
