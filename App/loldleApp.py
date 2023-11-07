@@ -169,6 +169,14 @@ def convert_string_to_combinaison(string):
             result.append(WRONG)
     return result
 
+def count_arrow_in_string(string):
+    result = 0
+    for elem in string:
+        if elem == "⬇" or elem == "⬆":
+            if string[string.index(elem) + 1] == "️":
+                result += 1
+    return result
+
 ############################################################################################################
 #   Entropy functions
 ############################################################################################################
@@ -290,8 +298,8 @@ class GameState:
         while not isValid:
             # A valid combinaison is 7 characters long, each character is a number between 0 and 4 or each character is an emoji (🟩🟥🟧⬇️⬆️)
             input_combinaison = input(f"Give the result combinaison for {self.last_tested_champ.Name} (7 characters, 0 to 4 or 🟩🟥🟧⬇️⬆️):\n")
-            if len(input_combinaison) != 7:
-                if not re.match("^[0-4]*$", input_combinaison) and not re.match("^[🟩🟥🟧⬇️⬆️]*$", input_combinaison):
+            if (len(input_combinaison) - count_arrow_in_string(input_combinaison)) != 7 and (not re.match("^[0-4]*$", input_combinaison) or not re.match("^[🟩🟥🟧⬇️⬆️⬆⬇]*$", input_combinaison)):
+                if not re.match("^[0-4]*$", input_combinaison) or not re.match("^[🟩🟥🟧⬇️⬆️]*$", input_combinaison):
                     print("Invalid combinaison. Try again.")
                     continue
             isValid = True
@@ -300,9 +308,8 @@ class GameState:
         else:
             # Transform string emoji to an int combinaison, example: 🟩🟥🟧🟩🟥🟥⬆️ -> 0220014
             listStr = [char for char in input_combinaison]
-            lastChar = listStr[-1]
-            if not (lastChar == "🟩"):    
-                listStr.pop() # To remove the double char hapening with an arrow emoji
+            for i in range(listStr.count('️')):
+                listStr.pop(listStr.index('️'))
             return "".join(map(str, convert_visual_to_combinaison(listStr)))     
 
 def ask_for_champ(champ_list: [Champion()]):
