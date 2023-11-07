@@ -26,6 +26,11 @@ On a chromium browser:
 6. Click on the extension icon
 7. Copy the champions combination in the terminal
 
+### To Scrap Data
+1. `cd Loldle`
+2. `source loldle/bin/activate`
+3. `python Data/retreieveCharacter.py` *you need to find the character of the day*
+
 ## Informations (number to input for each category)
 - 🟩 Exact match -> **0**
   
