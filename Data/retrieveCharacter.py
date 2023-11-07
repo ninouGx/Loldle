@@ -1,3 +1,5 @@
+import curses
+import os
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -5,6 +7,9 @@ from bs4 import BeautifulSoup
 import time
 import json
 import csv
+
+def clear_screen():
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 # Loop through champion elements and extract data
 def extract_lol_data(character_elements, writer):
@@ -166,9 +171,9 @@ def main(url, character_to_find, field_list, file_name, json_file_name, place_ho
     
 def retrieve_lol_var():
     url = "https://loldle.net/classic"
-    character_to_find = input("Enter guess character's name: ")
+    character_to_find = input("Enter today's guess character's name: ")
     field_list = ['Champion Name', 'Gender', 'Position(s)', 'Species', 'Resource', 'Range type', 'Region(s)', 'Release year']
-    file_name = 'champions_data_test.csv'
+    file_name = 'champions_data.csv'
     json_file_name = 'champions.json'
     place_holder = 'Type champion name ...'
     extract_function = extract_lol_data
@@ -177,7 +182,7 @@ def retrieve_lol_var():
 
 def retrieve_pokemon_var():
     url = "https://pokedle.net/classic"
-    character_to_find = input("Enter guess character's name: ")
+    character_to_find = input("Enter today's guess character's name: ")
     field_list = ['Pokemon', 'Type 1', 'Type 2', 'Habitat', 'Color(s)', 'Evolution Stage', 'Height', 'Weight']
     file_name = 'pokemon_data.csv'
     json_file_name = 'pokemon.json'
@@ -194,6 +199,61 @@ def pokemon():
     url, character_to_find, field_list, file_name, json_file_name, place_holder, extract_function = retrieve_pokemon_var()
     main(url, character_to_find, field_list, file_name, json_file_name, place_holder, extract_function)
 
+def display_choice_menu(stdscr):
+    valid_inputs = {
+        "up": [ord("w"), ord("z"), curses.KEY_UP],
+        "down": [ord("s"), curses.KEY_DOWN],
+    }
+    modes = ["Scrap Loldle", "Scrap Pokedle"]
+    index = 0
+
+    while True:
+        stdscr.clear()
+
+        # Display menu options with arrow logo
+        stdscr.addstr("Choose a mode: (up ^ / down v / enter)")
+        for i in range(len(modes)):
+            if i == index:
+                stdscr.addstr(f"\n[X] {modes[i]}", curses.COLOR_CYAN)
+            else:
+                stdscr.addstr(f"\n[ ] {modes[i]}")
+
+        # Get user input
+        key = stdscr.getch()
+
+        # Update selection based on user input
+        if key in valid_inputs["up"]:
+            index = (index - 1) % len(modes)
+        elif key in valid_inputs["down"]:
+            index = (index + 1) % len(modes)
+        elif key == ord('\n'):
+            return str(index + 1)
+
+        stdscr.refresh()
+
+def choice_menu():
+    # Initialize curses
+    stdscr = curses.initscr()
+    curses.noecho()
+    curses.cbreak()
+    stdscr.keypad(True)
+
+    # Display menu
+    mode = display_choice_menu(stdscr)
+
+    # Clean up curses
+    curses.nocbreak()
+    stdscr.keypad(False)
+    curses.echo()
+    curses.endwin()
+
+    return mode
+
+
 if __name__ == '__main__':
-    #pokemon()
-    lol()
+    clear_screen()
+    mode = choice_menu()
+    if mode == "1":
+        lol()
+    elif mode == "2":
+        pokemon()
