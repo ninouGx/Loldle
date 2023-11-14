@@ -27,7 +27,7 @@ On a chromium browser:
 7. Copy the champions combination in the terminal
 
 ### To Scrap Data
-1. `cd Loldle`
+1. `cd Loldle/Data`
 2. `source loldle/bin/activate`
 3. `python Data/retreieveCharacter.py` *you need to find the character of the day*
 
